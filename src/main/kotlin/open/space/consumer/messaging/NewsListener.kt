@@ -1,20 +1,16 @@
 package open.space.consumer.messaging
 
-import open.space.consumer.configuration.RabbitMQProperties
 import open.space.consumer.messaging.messages.MessageDeserializer
 import open.space.consumer.messaging.messages.NewsMessage
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageListener
-import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
 
 @Service
 class NewsListener(
-    private val queue : Queue,
-    private val messageSerializer: MessageDeserializer<NewsMessage>,
-    private val queueProperties : RabbitMQProperties
+    private val messageSerializer: MessageDeserializer<NewsMessage>
 ) : MessageListener {
 
     @RabbitListener(queues = ["#{queue.name}"])
@@ -24,7 +20,7 @@ class NewsListener(
                 message = message,
                 bodyClass = NewsMessage::class.java
             )
-            println(messageEnvelope.data)
+            println(messageEnvelope.data.text)
 
         } catch (e: Exception) {
             println("Exception on receiving consumer queue message: $e")

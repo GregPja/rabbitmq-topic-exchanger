@@ -32,25 +32,6 @@
   ],
   "policies": [],
   "queues": [
-
-    {
-      "name": "news-italy-lombardia",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {
-        "x-dead-letter-exchange": "dead_letters_exchange"
-      }
-    },
-    {
-      "name": "news-germany-berlin",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {
-        "x-dead-letter-exchange": "dead_letters_exchange"
-      }
-    },
     {
       "name": "news.dead",
       "vhost": "/",

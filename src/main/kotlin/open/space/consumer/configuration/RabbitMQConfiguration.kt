@@ -17,6 +17,7 @@ class RabbitMQConfiguration(
     @Bean
     fun bindings(): List<Binding> {
         return queueProperties.topics.map {
+            println(it)
             BindingBuilder.bind(queue()).to(exchange()).with(it).noargs()
         }
     }

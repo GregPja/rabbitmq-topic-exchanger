@@ -2,29 +2,6 @@ version: '3'
 
 
 services:
-  berlin-news:
-    build:
-      .
-    container_name: berlin-news
-    depends_on:
-      - news-queue
-    environment:
-      SPRING_RABBITMQ_HOST: news-queue
-      AREA_REGION_NAME: berlin
-      AREA_COUNTRY_NAME: germany
-
-  veneto-news:
-    build:
-      .
-    container_name: veneto-news
-    depends_on:
-      - news-queue
-    environment:
-      SPRING_RABBITMQ_HOST: news-queue
-      AREA_REGION_NAME: veneto
-      AREA_COUNTRY_NAME: italy
-
-
 
   news-queue:
     container_name: "news-queue"
@@ -36,6 +13,33 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+
+  berlin-news:
+    build:
+      .
+    container_name: berlin-news
+    restart: always
+    depends_on:
+      - news-queue
+    environment:
+      SPRING_RABBITMQ_HOST: news-queue
+      REGION_NAME: berlin
+      COUNTRY_NAME: germany
+      TOPICS: 'news.beer.#,news.corona.#,news.weather.germany.berlin, news.vegetables.potatoes.#'
+
+  veneto-news:
+    build:
+      .
+    container_name: veneto-news
+    restart: always
+    depends_on:
+      - news-queue
+    environment:
+      SPRING_RABBITMQ_HOST: news-queue
+      REGION_NAME: veneto
+      COUNTRY_NAME: italy
+      TOPICS: 'news.beer.#,#.corona.#,news.weather.italy.veneto, news.vegetables.*.discount'
+
 
   #
   # Volumes

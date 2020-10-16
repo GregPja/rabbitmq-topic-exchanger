@@ -1,16 +1,14 @@
 package open.space.consumer.messaging.messages
 
 data class NewsMessage(
-    val size: Int,
-    val name: String
+    val text: String
 )
 
 
 /*
 {
     "data" : {
-        "name" : "message for the world",
-        "size" : 5
+        "text" : "message for the world",
         }
 }
 
