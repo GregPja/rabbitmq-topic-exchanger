@@ -2,3 +2,9 @@ spring:
   rabbitmq:
     host: 127.0.0.1
     port: 5672
+
+area:
+  region:
+    name: ${region-name}
+  country:
+    name: ${country-name}

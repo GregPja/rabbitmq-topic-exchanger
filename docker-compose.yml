@@ -2,23 +2,37 @@ version: '3'
 
 
 services:
-  potato-consumer:
+  berlin-news:
     build:
       .
-    container_name: potato-consumer
+    container_name: berlin-news
     depends_on:
-      - potatoes-queue
+      - news-queue
     environment:
-      SPRING_RABBITMQ_HOST: potatoes-queue
+      SPRING_RABBITMQ_HOST: news-queue
+      AREA_REGION_NAME: berlin
+      AREA_COUNTRY_NAME: germany
+
+  veneto-news:
+    build:
+      .
+    container_name: veneto-news
+    depends_on:
+      - news-queue
+    environment:
+      SPRING_RABBITMQ_HOST: news-queue
+      AREA_REGION_NAME: veneto
+      AREA_COUNTRY_NAME: italy
 
 
-  potatoes-queue:
-    container_name: "potatoes-queue"
+
+  news-queue:
+    container_name: "news-queue"
     build:
       context: ./rabbitMqConfig/
       dockerfile: ./Dockerfile
     volumes:
-      - potatoes-queue-data:/var/lib/rabbitmq
+      - news-queue-data:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -27,5 +41,5 @@ services:
   # Volumes
   #
 volumes:
-  potatoes-queue-data:
+  news-queue-data:
     driver: "local"

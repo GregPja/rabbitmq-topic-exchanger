@@ -1,7 +1,7 @@
 package open.space.consumer.messaging
 
 import open.space.consumer.messaging.messages.MessageDeserializer
-import open.space.consumer.messaging.messages.PotatoMessage
+import open.space.consumer.messaging.messages.NewsMessage
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageListener
@@ -9,21 +9,17 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerEventsQueueListener(
-    private val messageSerializer: MessageDeserializer<PotatoMessage>
+class NewsListener(
+    private val messageSerializer: MessageDeserializer<NewsMessage>
 ) : MessageListener {
 
-    @RabbitListener(queues = ["potato.event.creation"])
+    @RabbitListener(queues = ["news-\${area.country.name}-\${area.region.name}"])
     override fun onMessage(message: Message) {
         try {
-            println(message)
             val messageEnvelope = messageSerializer.deserializeMessageEnvelope(
                 message = message,
-                bodyClass = PotatoMessage::class.java
+                bodyClass = NewsMessage::class.java
             )
-
-            val eventMessage = messageEnvelope.data
-
             println(messageEnvelope.data)
 
         } catch (e: Exception) {

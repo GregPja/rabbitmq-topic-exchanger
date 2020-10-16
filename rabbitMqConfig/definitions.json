@@ -33,16 +33,34 @@
   "policies": [],
   "queues": [
     {
-    "name": "potato.event.creation",
-    "vhost": "/",
-    "durable": true,
-    "auto_delete": false,
-    "arguments": {
-      "x-dead-letter-exchange": "dead_potato_exchange"
-    }
+      "name": "news-italy-veneto",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dead_letters_exchange"
+      }
     },
     {
-      "name": "potato.event.creation.dead",
+      "name": "news-italy-lombardia",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dead_letters_exchange"
+      }
+    },
+    {
+      "name": "news-germany-berlin",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "dead_letters_exchange"
+      }
+    },
+    {
+      "name": "news.dead",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
@@ -53,7 +71,7 @@
   ],
   "exchanges": [
     {
-      "name": "dead_potato_exchange",
+      "name": "dead_letters_exchange",
       "vhost": "/",
       "type": "direct",
       "durable": true,
@@ -62,31 +80,15 @@
       "arguments": {}
     },
     {
-      "name": "potato_exchange",
+      "name": "news_exchange",
       "vhost": "/",
-      "type": "direct",
+      "type": "topic",
       "durable": true,
       "auto_delete": false,
       "internal": false,
-      "arguments": {}
-    }
-  ],
-  "bindings": [
-    {
-      "source": "potato_exchange",
-      "vhost": "/",
-      "destination": "potato.event.creation",
-      "destination_type": "queue",
-      "routing_key": "potato.event.creation.dead",
-      "arguments": {}
-    },
-    {
-      "source": "dead_potato_exchange",
-      "vhost": "/",
-      "destination": "potato.event.creation.dead",
-      "destination_type": "queue",
-      "routing_key": "potato.event.creation.dead",
       "arguments": {}
     }
   ]
 }
+
+
