@@ -8,3 +8,8 @@ area:
     name: ${region-name}
   country:
     name: ${country-name}
+
+queue-properties:
+  topics: ${topics}
+  queue_name: news-${country-name}-${region-name}
+  exchange_name: news_exchange

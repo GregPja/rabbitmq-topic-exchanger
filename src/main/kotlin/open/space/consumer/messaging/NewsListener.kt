@@ -1,19 +1,23 @@
 package open.space.consumer.messaging
 
+import open.space.consumer.configuration.RabbitMQProperties
 import open.space.consumer.messaging.messages.MessageDeserializer
 import open.space.consumer.messaging.messages.NewsMessage
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageListener
+import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
 
 @Service
 class NewsListener(
-    private val messageSerializer: MessageDeserializer<NewsMessage>
+    private val queue : Queue,
+    private val messageSerializer: MessageDeserializer<NewsMessage>,
+    private val queueProperties : RabbitMQProperties
 ) : MessageListener {
 
-    @RabbitListener(queues = ["news-\${area.country.name}-\${area.region.name}"])
+    @RabbitListener(queues = ["#{queue.name}"])
     override fun onMessage(message: Message) {
         try {
             val messageEnvelope = messageSerializer.deserializeMessageEnvelope(

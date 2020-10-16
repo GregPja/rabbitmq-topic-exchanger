@@ -32,15 +32,7 @@
   ],
   "policies": [],
   "queues": [
-    {
-      "name": "news-italy-veneto",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {
-        "x-dead-letter-exchange": "dead_letters_exchange"
-      }
-    },
+
     {
       "name": "news-italy-lombardia",
       "vhost": "/",
@@ -86,6 +78,16 @@
       "durable": true,
       "auto_delete": false,
       "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "dead_letters_exchange",
+      "vhost": "/",
+      "destination": "news.dead",
+      "destination_type": "queue",
+      "routing_key": "news.dead",
       "arguments": {}
     }
   ]
